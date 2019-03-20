@@ -1,0 +1,89 @@
+/*
+    Theme Name:     HTML5 BLANK Child
+    Description:    Thème enfant pour le thème html5 blank
+    Author:         BENCHAABANE Fahim
+    Author URI:     http://fahim-benchaabane.fr
+    Template:       html5blank                             
+    Version:        1.0.0
+*/
+html {
+    font-size: 62.5%;
+}
+body {
+    font-size: 1.6rem;
+}
+img {
+    max-width: 100%;
+}
+.router-link-active {
+    background-color: red;
+}
+
+.image--cover {
+    border-radius: 50%;
+}
+
+/* ------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------
+----------------------------LOGIN SCREEN ----------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------*/
+#login-slack {
+    display: flex;
+    height:100vh;
+}
+#login-slack .left {
+    display:flex;
+    background-color:#773082;
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-end;
+    color:white;
+}
+#login-slack .left .logo-iot {
+    height:10rem;
+    width:10rem;
+    background-size:contain;
+    background-image: url('ressources/img/logo-iot.png');
+    background-repeat: no-repeat;
+    margin-right:45rem;
+}
+#login-slack .right {
+    display:flex;
+    flex-basis: 0;
+    flex-grow: 1;
+    justify-content: flex-start;
+    align-items: center;
+}
+#login-slack .left .logo-nanolike {
+    display:flex;
+    height:5rem;
+    width:10rem;
+    background-size:contain;
+    background-image: url('ressources/img/nanolike.png');
+    background-repeat: no-repeat;
+    margin-right:45rem;
+}
+#login-slack .login-desc {
+    text-shadow: 2px 2px 2px black;
+    max-width: 50rem;
+    margin-right:.5rem;
+}
+#login-slack .desc-title {
+    font-size: 3.4rem;
+}
+#login-slack .desc-subtitle {
+    font-size: 1.5rem;
+}
+#login-slack .right img{
+    margin-left:25rem;
+    box-shadow: 6px 6px 10px #999;
+}
+#login-slack .right img:hover{
+    box-shadow: 4px 4px 8px #666;
+}
+/*--------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+-------------------- PAGE 404 ----------------------------------------------------------------
+---------------------------------------------------------------------------------------------*/

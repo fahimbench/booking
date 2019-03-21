@@ -164,7 +164,7 @@ const routes = [
 
 const router = new VueRouter({
     mode: 'history',
-    routes 
+    routes
 })
 
 const app = new Vue({
@@ -172,6 +172,10 @@ const app = new Vue({
         search: '',
     },
     router,
-
+    watch: {
+      "$route": function(params) {
+        this.search = ''
+      }
+    }
 }).$mount('#app')
 

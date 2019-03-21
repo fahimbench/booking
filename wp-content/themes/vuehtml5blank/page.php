@@ -5,7 +5,7 @@ $client_id;
 $client_secret;
 $token;
 $api_token;
-$url = "http://".$_SERVER['HTTP_HOST']."/wp-content/themes/vuehtml5blank/";
+$url = "http://" . $_SERVER['HTTP_HOST'] . "/wp-content/themes/vuehtml5blank/";
 $query = new WP_Query([
     "post_type" => "slack"
 ]);
@@ -28,7 +28,11 @@ if ($query->have_posts()) {
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script id="data" type="application/json">{"url": "<?php echo $url ?>"}</script>
+    <script id="data" type="application/json">
+        {
+            "url": "<?php echo $url ?>"
+        }
+    </script>
     <?php wp_head(); ?>
 </head>
 
@@ -46,7 +50,7 @@ if ($query->have_posts()) {
                 <div class="logo-nanolike"></div>
             </div>
             <div class="right">
-                
+
                 <a href="https://slack.com/oauth/authorize?scope=identity.basic,identity.email,identity.avatar&client_id=<?php echo $client_id; ?>&redirect_uri=http://<?php echo $_SERVER['HTTP_HOST']; ?>/connection">
                     <img src="https://api.slack.com/img/sign_in_with_slack.png" />
                 </a>
@@ -57,12 +61,30 @@ if ($query->have_posts()) {
     } else { ?>
 
         <!-- PARTIE A MODIFIER -- APP -->
-
-        <input type="text" v-model="search" placeholder="Search title.." />
-        <router-link to="/users">users</router-link>
-        <router-link to="/rooms">rooms</router-link>
-        <router-link to="/booking">booking</router-link>
-        <router-view></router-view>
+        <div id="main-container">
+            <div class="topbar">
+                <div class="search">
+                     <input type="text" v-model="search" placeholder="Search title.." />
+                </div>
+                <div class="profil">
+                    <div class="picture image--cover"></div>
+                    <div class="profil-hidden">
+                    <a href="/disconnect">Déconnexion</a>
+                    </div>
+                </div>
+            </div>
+            <div class="view">
+                <nav>
+                    <router-link to="/users" class="menu-icon users"></router-link>
+                    <router-link to="/rooms" class="menu-icon rooms"></router-link>
+                    <router-link to="/booking" class="menu-icon booking"></router-link>
+                    <router-link to="/" class="menu-icon home"></router-link>
+                </nav>
+                <div class="result">
+                    <router-view></router-view>
+                </div>
+            </div>
+        </div>
         <?php 
     } ?>
     </div>
@@ -76,7 +98,24 @@ if ($query->have_posts()) {
         wp_footer();
     }
     ?>
+<script>
+let profil = document.querySelector('.profil');
 
+document.addEventListener('click', function(e){
+   
+    if(!e.target.classList.contains('picture') && profil.classList.contains('active')){
+        profil.classList.toggle('active');
+    }
+    
+});
+
+profil.addEventListener('click', function(){
+    this.classList.toggle('active');
+});
+
+
+
+</script>
 
 </body>
 

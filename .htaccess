@@ -3,11 +3,12 @@
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteBase /wp/
-RewriteRule connection /wp-content/themes/vuehtml5blank/connect.php [L]
+RewriteRule ^connection$ /wp-content/themes/vuehtml5blank/connect.php [L]
+RewriteRule ^disconnect$ /wp-content/themes/vuehtml5blank/disconnect.php [L]
 RewriteRule ^index\.php$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /wp/index.php [L]
+RewriteRule . /wp-content/themes/vuehtml5blank/404.php [L]
 </IfModule>
 
 # END WordPress

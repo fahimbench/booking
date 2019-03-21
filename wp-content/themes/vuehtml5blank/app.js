@@ -150,21 +150,20 @@ const Bookings = {
         }
 }
 
-const NotFound = {
-  created: function() {
-      window.location.href = "404";
-  }
+const Home = {
+  template: "<div>Accueil</div>"
 } 
 
 const routes = [
     { path: '/users', component: Users },
     { path: '/rooms', component: Rooms },
     { path: '/booking', component: Bookings },
-    { path: '/', component: Users },
-    { path: '*', component: NotFound }
+    { path: '/', component: Home },
+     // { path: '*', component: NotFound }
   ]
 
 const router = new VueRouter({
+    mode: 'history',
     routes 
 })
 

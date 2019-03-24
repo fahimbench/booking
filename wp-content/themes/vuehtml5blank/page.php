@@ -118,56 +118,6 @@ if ($query->have_posts()) {
             this.classList.toggle('active');
         });
 
-        let suppr = function(id, str) {
-            swal({
-                    title: "Confirmation de la suppression?",
-                    text: "Êtes vous sure de vouloir supprimer cet élément ?",
-                    buttons: [true, 'Confirmer'],
-                    dangerMode: true,
-                })
-                .then((del) => {
-                    if (del) {
-                        axios.get(url + '/send.php?req=delete&id=' + id + '&type=' + str)
-                            .then(function(response) {
-                                if (response.data.error === false) {
-                                    document.querySelector('[data-id="' + id + '"]').remove();
-                                    swal("Votre " + str + " a été correctement supprimé !", {
-                                        icon: "success",
-                                    });
-                                } else {
-                                    swal("Votre " + str + " n'a pas été correctement supprimé !", {
-                                        icon: "error",
-                                    });
-                                }
-                            })
-                    }
-                });
-        }
-
-        let add = function(room) {
-            swal({
-                title: "Ajout d'une salle",
-                content: buildForm(room)
-            }).then((del) => {
-                    if (del) {
-                        axios.get(url + '/send.php',{
-                            params:{
-                                req: "add",
-                                name: document.querySelector("#inputRoomName").value,
-                                dayStart: document.querySelector("#selectDayStart").value,
-                                dayEnd: document.querySelector("#selectDayEnd").value,
-                                hrStart: document.querySelector("#selectHrStart").value,
-                                hrEnd: document.querySelector("#selectHrEnd").value,
-                                building: document.querySelector("#selectBuilding").value,
-                            }
-                        })
-                            .then(function(response) {
-                                console.log(response)
-                            })
-                    }
-                });
-        }
-
         let modify = function(room) {
             swal({
                 title: "Modification d'une salle",
@@ -177,13 +127,13 @@ if ($query->have_posts()) {
             });
         }
 
-        let buildForm = function(room){
+        let buildForm = function(room) {
             let buildings = ["IOT1", "IOT2", "IOT3"];
             let days = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
             let hours = [];
             for (let i = 0; i < 24; i++) {
                 for (let j = 0; j < 2; j++) {
-                    i2 = (i <= 9) ?  "0"+i : i;
+                    i2 = (i <= 9) ? "0" + i : i;
                     hours.push(i2 + ":" + (j === 0 ? "00" : 30));
                 }
             }
@@ -205,28 +155,39 @@ if ($query->have_posts()) {
             return div;
         }
 
-        let selectBuilder = function(id, array, selected, type){
+        let selectBuilder = function(id, array, selected, type) {
             let select = document.createElement("select");
             select.id = id;
             for (let i = 0; i < array.length; i++) {
                 let option = document.createElement("option");
                 option.value = array[i];
                 option.text = array[i];
-                switch(type){
+                switch (type) {
                     case "hours":
                         date = moment(selected).locale("fr").format("HH:mm");
                         option.selected = (date == array[i]) ? true : false;
-                    break;
+                        break;
                     case "days":
                         option.selected = (selected == i) ? true : false;
-                    break;
+                        break;
                     case "building":
-                        option.selected = (selected == i+1) ? true : false;
-                    break;
+                        option.selected = (selected == i + 1) ? true : false;
+                        break;
                 }
                 select.appendChild(option);
             }
             return select;
+        }
+
+        let createRow = function() {
+            let name = document.querySelector("#inputRoomName").value;
+            let dayStart = document.querySelector("#selectDayStart").value;
+            let dayEnd = document.querySelector("#selectDayEnd").value;
+            let hrStart = document.querySelector("#selectHrStart").value;
+            let hrEnd = document.querySelector("#selectHrEnd").value;
+            let building = document.querySelector("#selectBuilding").value;
+
+            
         }
     </script>
 

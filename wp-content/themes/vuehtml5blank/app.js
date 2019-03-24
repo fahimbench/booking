@@ -122,7 +122,7 @@ const Rooms = {
     '<div class="load" v-else-if="this.load"><img src="' +
     url +
     '/ressources/img/load.gif"/></div>' +
-    '<div class="load" v-else>Aucun résultat</div>',
+    '<div class="load" v-else><div class="add"><div class="add-circle add-room" v-on:click="add(emptyRoom())"></div></div><div>Aucun résultat !</div><div></div></div>',
   computed: {
     filteredList() {
       return this.items.filter(post => {
@@ -131,14 +131,87 @@ const Rooms = {
     }
   },
   methods: {
-    suppr(id, str) {
-      suppr(id, str)
+    suppr: function(id, str) {
+      let vm = this;
+      swal({
+        title: "Confirmation de la suppression?",
+        text: "Êtes vous sure de vouloir supprimer cet élément ?",
+        buttons: [true, 'Confirmer'],
+        dangerMode: true,
+    })
+    .then((del) => {
+        if (del) {
+            axios.get(url + '/send.php?req=delete&id=' + id + '&type=' + str)
+                .then(function(response) {
+                    if (response.data.error === false) {
+                        for(let i = 0; i < vm.items.length; i++){
+                          if(vm.items[i].id == id){
+                            vm.$delete(vm.items, i);
+                            break;
+                          }
+                        }
+                        swal("Votre " + str + " a été correctement supprimé !", {
+                            icon: "success",
+                        });
+                    } else {
+                        swal("Votre " + str + " n'a pas été correctement supprimé !", {
+                            icon: "error",
+                        });
+                    }
+                })
+        }
+    });
     },
     modify(room) {
       modify(room)
     },
     add(room){
-      add(room)
+      let vm = this;
+      swal({
+        title: "Ajout d'une salle",
+        content: buildForm(room)
+    }).then((add) => {
+        if (add) {
+            axios.get(url + '/send.php', {
+                params: {
+                    req: "add",
+                    name: document.querySelector("#inputRoomName").value,
+                    dayStart: document.querySelector("#selectDayStart").value,
+                    dayEnd: document.querySelector("#selectDayEnd").value,
+                    hrStart: document.querySelector("#selectHrStart").value,
+                    hrEnd: document.querySelector("#selectHrEnd").value,
+                    building: document.querySelector("#selectBuilding").value,
+                }
+            }).then(function(response) {
+                if (response.data.error === false) {
+                  axios.get(url + "/send.php?req=getAllRooms").then(result => {
+                    let newItems = [];
+                    for (let i = 0; i < result.data.response.length; i++) {
+                      newItems.push(
+                        new Room(
+                          result.data.response[i].room_id,
+                          result.data.response[i].room_name,
+                          result.data.response[i].room_day_start,
+                          result.data.response[i].room_day_end,
+                          result.data.response[i].room_hr_start,
+                          result.data.response[i].room_hr_end,
+                          result.data.response[i].room_building
+                        )
+                      );
+                        }
+                      vm.items = newItems;
+                      });
+                    swal("Votre Salle a été créé correctement !", {
+                                icon: "success",
+                    });
+                } else {
+                    swal("Votre Salle n'a pas été créé !", {
+                                icon: "error",
+                            });
+                }
+            })
+        }
+    });
     },
     getBuilding(id){
       return this.location[id]
@@ -199,7 +272,36 @@ const Bookings = {
   },
   methods: {
     suppr(id, str) {
-      suppr(id, str);
+        let vm = this;
+        swal({
+          title: "Confirmation de la suppression?",
+          text: "Êtes vous sure de vouloir supprimer cet élément ?",
+          buttons: [true, 'Confirmer'],
+          dangerMode: true,
+      })
+      .then((del) => {
+          if (del) {
+              axios.get(url + '/send.php?req=delete&id=' + id + '&type=' + str)
+                  .then(function(response) {
+                      if (response.data.error === false) {
+                          for(let i = 0; i < vm.items.length; i++){
+                            if(vm.items[i].id == id){
+                              //document.querySelector('[data-id="' + id + '"]').remove();
+                              vm.$delete(vm.items, i);
+                              break;
+                            }
+                          }
+                          swal("Votre " + str + " a été correctement supprimé !", {
+                              icon: "success",
+                          });
+                      } else {
+                          swal("Votre " + str + " n'a pas été correctement supprimé !", {
+                              icon: "error",
+                          });
+                      }
+                  })
+          }
+      });
     }
   },
   mounted() {

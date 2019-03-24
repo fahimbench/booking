@@ -28,6 +28,8 @@ if ($query->have_posts()) {
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="http://momentjs.com/downloads/moment.js"></script>
     <script id="data" type="application/json">
         {
             "url": "<?php echo $url ?>"
@@ -63,13 +65,16 @@ if ($query->have_posts()) {
         <!-- PARTIE A MODIFIER -- APP -->
         <div id="main-container">
             <div class="topbar">
+                <div class="search-icon-space">
+                    <div class="search-icon"></div>
+                </div>
                 <div class="search">
-                     <input type="text" v-model="search" placeholder="Search title.." />
+                    <input type="text" v-model="search" placeholder="Chercher ..." />
                 </div>
                 <div class="profil">
-                    <div class="picture image--cover"></div>
+                    <div class="picture image--cover" style="background: url('<?php echo $_SESSION['user_pic']; ?>') no-repeat center center;  background-size: 45px 45px;"></div>
                     <div class="profil-hidden">
-                    <a href="/disconnect">Déconnexion</a>
+                        <a class="disconnect" href="/disconnect">Se déconnecter</a>
                     </div>
                 </div>
             </div>
@@ -98,24 +103,132 @@ if ($query->have_posts()) {
         wp_footer();
     }
     ?>
-<script>
-let profil = document.querySelector('.profil');
+    <script>
+        let profil = document.querySelector('.profil');
 
-document.addEventListener('click', function(e){
-   
-    if(!e.target.classList.contains('picture') && profil.classList.contains('active')){
-        profil.classList.toggle('active');
-    }
-    
-});
+        document.addEventListener('click', function(e) {
 
-profil.addEventListener('click', function(){
-    this.classList.toggle('active');
-});
+            if (!e.target.classList.contains('picture') && profil.classList.contains('active')) {
+                profil.classList.toggle('active');
+            }
 
+        });
 
+        profil.addEventListener('click', function() {
+            this.classList.toggle('active');
+        });
 
-</script>
+        let suppr = function(id, str) {
+            swal({
+                    title: "Confirmation de la suppression?",
+                    text: "Êtes vous sure de vouloir supprimer cet élément ?",
+                    buttons: [true, 'Confirmer'],
+                    dangerMode: true,
+                })
+                .then((del) => {
+                    if (del) {
+                        axios.get(url + '/send.php?req=delete&id=' + id + '&type=' + str)
+                            .then(function(response) {
+                                if (response.data.error === false) {
+                                    document.querySelector('[data-id="' + id + '"]').remove();
+                                    swal("Votre " + str + " a été correctement supprimé !", {
+                                        icon: "success",
+                                    });
+                                } else {
+                                    swal("Votre " + str + " n'a pas été correctement supprimé !", {
+                                        icon: "error",
+                                    });
+                                }
+                            })
+                    }
+                });
+        }
+
+        let add = function(room) {
+            swal({
+                title: "Ajout d'une salle",
+                content: buildForm(room)
+            }).then((del) => {
+                    if (del) {
+                        axios.get(url + '/send.php',{
+                            params:{
+                                req: "add",
+                                name: document.querySelector("#inputRoomName").value,
+                                dayStart: document.querySelector("#selectDayStart").value,
+                                dayEnd: document.querySelector("#selectDayEnd").value,
+                                hrStart: document.querySelector("#selectHrStart").value,
+                                hrEnd: document.querySelector("#selectHrEnd").value,
+                                building: document.querySelector("#selectBuilding").value,
+                            }
+                        })
+                            .then(function(response) {
+                                console.log(response)
+                            })
+                    }
+                });
+        }
+
+        let modify = function(room) {
+            swal({
+                title: "Modification d'une salle",
+                content: buildForm(room)
+            }).then((e) => {
+
+            });
+        }
+
+        let buildForm = function(room){
+            let buildings = ["IOT1", "IOT2", "IOT3"];
+            let days = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
+            let hours = [];
+            for (let i = 0; i < 24; i++) {
+                for (let j = 0; j < 2; j++) {
+                    i2 = (i <= 9) ?  "0"+i : i;
+                    hours.push(i2 + ":" + (j === 0 ? "00" : 30));
+                }
+            }
+            //creation du conteneur
+            let div = document.createElement("div");
+            //creation de l'input nom de la salle
+            let inputRoomName = document.createElement("input");
+            inputRoomName.id = "inputRoomName";
+            inputRoomName.type = "text";
+            inputRoomName.placeholder = "Nom de la Salle";
+            inputRoomName.value = room.name;
+            div.appendChild(inputRoomName);
+
+            div.appendChild(selectBuilder("selectDayStart", days, room.dayStart, "days"));
+            div.appendChild(selectBuilder("selectDayEnd", days, room.dayEnd, "days"));
+            div.appendChild(selectBuilder("selectHrStart", hours, room.hrStart, "hours"));
+            div.appendChild(selectBuilder("selectHrEnd", hours, room.hrEnd, "hours"));
+            div.appendChild(selectBuilder("selectBuilding", buildings, room.building, "building"));
+            return div;
+        }
+
+        let selectBuilder = function(id, array, selected, type){
+            let select = document.createElement("select");
+            select.id = id;
+            for (let i = 0; i < array.length; i++) {
+                let option = document.createElement("option");
+                option.value = array[i];
+                option.text = array[i];
+                switch(type){
+                    case "hours":
+                        date = moment(selected).locale("fr").format("HH:mm");
+                        option.selected = (date == array[i]) ? true : false;
+                    break;
+                    case "days":
+                        option.selected = (selected == i) ? true : false;
+                    break;
+                    case "building":
+                        option.selected = (selected == i+1) ? true : false;
+                    break;
+                }
+                select.appendChild(option);
+            }
+            return select;
+        }
+    </script>
 
 </body>
 

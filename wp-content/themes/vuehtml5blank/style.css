@@ -7,261 +7,356 @@
     Version:        1.0.0
 */
 html {
-    font-size: 62.5%;
+  font-size: 62.5%;
 }
 body {
-    font-size: 1.6rem;
-    background-color: #a29d98;
+  font-size: 1.6rem;
+  background-color: #f5f5f7;
 }
 img {
-    max-width: 100%;
+  max-width: 100%;
 }
-
+.profil-picture {
+  min-height: 5rem;
+  min-width: 5rem;
+}
 
 /* ------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------
 ----------------------------LOGIN SCREEN ----------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------*/
 #login-slack {
-    display: flex;
-    height:100vh;
+  display: flex;
+  height: 100vh;
 }
 #login-slack .left {
-    display:flex;
-    background-color:#773082;
-    flex-basis: 0;
-    flex-grow: 1;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: flex-end;
-    color:white;
+  display: flex;
+  background-color: #773082;
+  flex-basis: 0;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-end;
+  color: white;
 }
 #login-slack .left .logo-iot {
-    height:10rem;
-    width:10rem;
-    background-size:contain;
-    background-image: url('ressources/img/logo-iot.png');
-    background-repeat: no-repeat;
-    margin-right:45rem;
+  height: 10rem;
+  width: 10rem;
+  background-size: contain;
+  background-image: url("ressources/img/logo-iot.png");
+  background-repeat: no-repeat;
+  margin-right: 45rem;
 }
 #login-slack .right {
-    display:flex;
-    flex-basis: 0;
-    flex-grow: 1;
-    justify-content: flex-start;
-    align-items: center;
-    background-color: white;
+  display: flex;
+  flex-basis: 0;
+  flex-grow: 1;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: white;
 }
 #login-slack .left .logo-nanolike {
-    display:flex;
-    height:5rem;
-    width:10rem;
-    background-size:contain;
-    background-image: url('ressources/img/nanolike.png');
-    background-repeat: no-repeat;
-    margin-right:45rem;
+  display: flex;
+  height: 5rem;
+  width: 10rem;
+  background-size: contain;
+  background-image: url("ressources/img/nanolike.png");
+  background-repeat: no-repeat;
+  margin-right: 45rem;
 }
 #login-slack .login-desc {
-    text-shadow: 2px 2px 2px black;
-    max-width: 50rem;
-    margin-right:.5rem;
+  text-shadow: 2px 2px 2px black;
+  max-width: 50rem;
+  margin-right: 0.5rem;
 }
 #login-slack .desc-title {
-    font-size: 3.4rem;
+  font-size: 3.4rem;
 }
 #login-slack .desc-subtitle {
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 }
-#login-slack .right img{
-    margin-left:25rem;
-    box-shadow: 6px 6px 10px #999;
+#login-slack .right img {
+  margin-left: 25rem;
+  box-shadow: 6px 6px 10px #999;
 }
-#login-slack .right img:hover{
-    box-shadow: 4px 4px 8px #666;
+#login-slack .right img:hover {
+  box-shadow: 4px 4px 8px #666;
 }
 /*--------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------
 -------------------- PAGE 404 ----------------------------------------------------------------
 ---------------------------------------------------------------------------------------------*/
 
-
 /*--------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------
 -------------------- MAIN PAGE ----------------------------------------------------------------
 ---------------------------------------------------------------------------------------------*/
 .image--cover {
-    border-radius: 50%;
+  border-radius: 50%;
 }
 
 #main-container {
-    display:flex;
-    flex-direction: column;
-    margin:0 auto;
-    max-width:1080px;
-    height:100vh;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  max-width: 1080px;
+  width:100%;
+  height: 100vh;
 }
 
 #main-container .view {
-    display:flex;
-    height:100%;
+  display: flex;
+  height: 100%;
 }
 #main-container nav {
-    display:flex;
-    flex-direction: column;
-    width:10rem;
-    align-items: center;
-    background-color: #f5f5f5;
-    border-top-left-radius:1rem;
-    border-top-right-radius: 1rem;
-    margin-right:.5rem;
-    margin-left:.3rem;
+  display: flex;
+  flex-direction: column;
+  height:calc(100% - 8.5rem);
+  width: 7rem;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  margin: 1rem 1rem;
+  position:fixed;
+  top:6.5rem;
+  bottom:0;
 }
 #main-container .result {
-    border-top-left-radius:1rem;
-    border-top-right-radius: 1rem;
-    width:100%;
-    background-color: #f5f5f5;
-    margin-right:.3rem;
+  width: 100%;
+  /*background-color: #fff;*/
+  margin-top: 7.5rem;
+  margin-right: 1rem;
+  margin-left: 8.5rem;
+}
+.result .add {
+  display:flex;
+  justify-content: flex-end;
+}
+.result .add > .add-circle {
+  width:7rem;
+  height:7rem;
+  border-radius:50%;
+  cursor:pointer;
+}
+.result .add > .add-room {
+  background: #693099 url('ressources/img/nav/addroom.png') no-repeat center center;
+  background-size: 4rem 4rem;
+}
+.result .load {
+  display:flex;
+  height:100%;
+  justify-content: center;
+  align-items: center;
+}
+.result .row {
+    display: flex;
+    align-items: center;
+  }
+
+.result .row-bg {
+    height:6rem;
+    background-color: white;  
+    border-radius:.5rem;
+    margin: .3rem 0;
+}
+.result .row-bg:hover {
+  box-shadow: .1rem .1rem .5rem #777;
+}
+.result .col {
+    flex:1 1 0;       
+}
+.result .col-icon {
+  max-width:7rem;
+}
+.result .col-modify {
+  background: url("ressources/img/nav/modify.png") no-repeat center center;
+  background-size: contain;
+  min-height:3rem;
+  max-height:3rem;
+}
+.result .col-modify:hover {
+  background: url("ressources/img/nav/modifyactive.png") no-repeat center center;
+  background-size: contain;
+  cursor:pointer;
+}
+.result .col-trash {
+  background: url("ressources/img/nav/trash.png") no-repeat center center;
+  background-size: contain;
+  min-height:3rem;
+  max-height:3rem;
+}
+.result .col-trash:hover {
+  background: url("ressources/img/nav/trashactive.png") no-repeat center center;
+  background-size: contain;
+  cursor:pointer;
 }
 /* barre de recherche et profil icone avec deconnexion */
-.topbar ::placeholder { /* Firefox, Chrome, Opera */ 
-    color: white; 
-} 
-  
-.topbar :-ms-input-placeholder { /* Internet Explorer 10-11 */ 
-    color: white; 
-} 
-  
-.topbar ::-ms-input-placeholder { /* Microsoft Edge */ 
-    color: white; 
-} 
+.topbar ::placeholder {
+  /* Firefox, Chrome, Opera */
+  color: white;
+}
+
+.topbar :-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: white;
+}
+
+.topbar ::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: white;
+}
 .topbar {
-    margin: .3rem;
-    display: flex;
-    height:7.5rem;
-    background-color: #693099;
-    border-radius:1rem;
+  display: flex;
+  min-height: 6.5rem;
+  background-color: #693099;
+  justify-content: center;
+  align-items: center;
+  max-width:108rem;
+  width:100%;
+  box-shadow: .1rem 0 .7rem #777;
+  position:fixed;
 }
 
 .topbar .search {
-    width:100%;
-    display:flex;
-    justify-content: center;
-    align-items: center;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
-.topbar .search input{
-    color:white;
-    height:4.5rem;
-    width:95%;
-    background-color: transparent;
-    border:none;
-    border-bottom: .2rem solid white;
+.topbar .search-icon-space {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 1rem;
+  height: 4.5rem;
+  width: 6rem;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.topbar .search-icon {
+  background: url("ressources/img/nav/search.png") no-repeat center center;
+  background-size: contain;
+  height: 2rem;
+  width: 2rem;
+}
+.topbar .search input {
+  color: white;
+  height: 4.5rem;
+  width: 100%;
+  margin-right: 1rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
 }
 
 .topbar .profil {
-    display:flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    min-width: 7.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  min-width: 7.5rem;
+  height: 5rem;
+  border-left: 1px solid white;
 }
 .topbar .profil a {
-    color:white;
-    font-weight: bold;
+  font-size: 1.4rem;
+  color: red;
+  font-weight: bold;
 }
+
 .topbar .profil .picture {
-    min-height: 4.5rem;
-    min-width: 4.5rem;
-    background: url('ressources/img/prof5.png') no-repeat center center;
-    background-size: contain;
-    cursor:pointer;
-    box-shadow: none;
-    z-index: 99;
+  min-height: 4.5rem;
+  min-width: 4.5rem;
+  cursor: pointer;
+  box-shadow: none;
+  z-index: 99;
 }
 .topbar .profil .profil-hidden {
-    display:none;
-    flex-direction: column;
-    position: absolute;    
-    top:7.5rem;
-    right:0;
-    background-color: #693099;
-    border-radius: 1rem;
-    padding:1rem;
-    height:100%;
-    justify-content: center;
-    z-index:1;
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #f7f6f5;
+  border-radius: 1rem;
+  padding: 1rem;
+  justify-content: center;
+  z-index: 1;
+  white-space: nowrap;
+  padding-right: 5.5rem;
+  padding-left: 2.5rem;
+  margin: 3rem;
+  box-shadow: .1rem .1rem .7rem #777;
 }
 
 .topbar .profil.active > .profil-hidden {
-    display:flex;
+  display: flex;
 }
 .topbar .profil.active > .picture {
-    box-shadow: 0px 0px 5px 0px #fff;
+  box-shadow: 0px 0px 7px 0px #fff;
 }
-
-
-
 
 /* navigation icone et active */
 
 #main-container nav .menu-icon {
-    height:3.5rem;
-    width:3.5rem;
-    margin:2rem 0;
+  height: 3.5rem;
+  width: 3.5rem;
+  margin: 2rem 0;
 }
 
 /*menu not active*/
-#main-container nav .users{
-    background: url('ressources/img/nav/user.png') no-repeat center center;
-    background-size: contain;
+#main-container nav .users {
+  background: url("ressources/img/nav/user.png") no-repeat center center;
+  background-size: contain;
 }
-#main-container nav .rooms{
-    background: url('ressources/img/nav/room.png') no-repeat center center;
-    background-size: contain;
+#main-container nav .rooms {
+  background: url("ressources/img/nav/room.png") no-repeat center center;
+  background-size: contain;
 }
-#main-container nav .booking{
-    background: url('ressources/img/nav/booking.png') no-repeat center center;
-    background-size: contain;
+#main-container nav .booking {
+  background: url("ressources/img/nav/booking.png") no-repeat center center;
+  background-size: contain;
 }
-#main-container nav .home{
-    background: url('ressources/img/nav/home.png') no-repeat center center;
-    background-size: contain;
+#main-container nav .home {
+  background: url("ressources/img/nav/home.png") no-repeat center center;
+  background-size: contain;
 }
 /*menu hover*/
-#main-container nav .users:hover{
-    background: url('ressources/img/nav/useractive.png') no-repeat center center;
-    background-size: contain;
+#main-container nav .users:hover {
+  background: url("ressources/img/nav/useractive.png") no-repeat center center;
+  background-size: contain;
 }
-#main-container nav .rooms:hover{
-    background: url('ressources/img/nav/roomactive.png') no-repeat center center;
-    background-size: contain;
+#main-container nav .rooms:hover {
+  background: url("ressources/img/nav/roomactive.png") no-repeat center center;
+  background-size: contain;
 }
-#main-container nav .booking:hover{
-    background: url('ressources/img/nav/bookingactive.png') no-repeat center center;
-    background-size: contain;
+#main-container nav .booking:hover {
+  background: url("ressources/img/nav/bookingactive.png") no-repeat center
+    center;
+  background-size: contain;
 }
-#main-container nav .home:hover{
-    background: url('ressources/img/nav/homeactive.png') no-repeat center center;
-    background-size: contain;
+#main-container nav .home:hover {
+  background: url("ressources/img/nav/homeactive.png") no-repeat center center;
+  background-size: contain;
 }
 /*menu active*/
-#main-container nav .users.router-link-exact-active{
-    background: url('ressources/img/nav/useractive.png') no-repeat center center;
-    background-size: contain;
+#main-container nav .users.router-link-exact-active {
+  background: url("ressources/img/nav/useractive.png") no-repeat center center;
+  background-size: contain;
 }
-#main-container nav .rooms.router-link-exact-active{
-    background: url('ressources/img/nav/roomactive.png') no-repeat center center;
-    background-size: contain;
+#main-container nav .rooms.router-link-exact-active {
+  background: url("ressources/img/nav/roomactive.png") no-repeat center center;
+  background-size: contain;
 }
-#main-container nav .booking.router-link-exact-active{
-    background: url('ressources/img/nav/bookingactive.png') no-repeat center center;
-    background-size: contain;
+#main-container nav .booking.router-link-exact-active {
+  background: url("ressources/img/nav/bookingactive.png") no-repeat center
+    center;
+  background-size: contain;
 }
-#main-container nav .home.router-link-exact-active{
-    background: url('ressources/img/nav/homeactive.png') no-repeat center center;
-    background-size: contain;
+#main-container nav .home.router-link-exact-active {
+  background: url("ressources/img/nav/homeactive.png") no-repeat center center;
+  background-size: contain;
 }
-
-

@@ -4,6 +4,6 @@
 
     </head>
     <body>
-        404
+        <?php header('location: http://'.$_SERVER['HTTP_HOST'].'?redirect='.$_SERVER['REDIRECT_URL']); ?>
     </body>
 </html>

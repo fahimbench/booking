@@ -25,14 +25,16 @@ function getUsers($wp_token)
     return $response;
 }
 
-function getWithPrivateAPI($url, $api_token)
+function useAPI($url, $api_token, $data = null)
 {
+    $data = ($data != null) ? json_encode(http_build_query($data)) : null;
+
     $context = stream_context_create(array(
         "http" => array(
             "method" => "POST",
             "header" => "Content-Type: application/json;charset=utf-8\r\n"
                 . "Authorization: Bearer {$api_token}\r\n",
-            "content" => null
+            "content" => $data
         )
     ));
 
@@ -40,15 +42,34 @@ function getWithPrivateAPI($url, $api_token)
     return $response;
 }
 
-switch ($_GET["req"]) {
+switch ($_GET['req']) {
     case "getAllUsers":
         echo getUsers($wp_token);
         break;
     case "getAllRooms":
-        echo getWithPrivateAPI("http://vps595572.ovh.net/api/room/?getall", $api_token);
+        echo useAPI('http://vps595572.ovh.net/api/room/?getall', $api_token);
         break;
     case "getAllBookings":
-        echo getWithPrivateAPI("http://vps595572.ovh.net/api/booking/?getall", $api_token);
+        echo useAPI('http://vps595572.ovh.net/api/booking/?getall', $api_token);
+        break;
+    case "delete":
+        if(isset($_GET['id']) && !empty($_GET['id'])){
+            $str = (isset($_GET['type']) && !empty($_GET['type'])) ? $_GET['type'] : null;
+            $remplace = [
+                'Réservation' => 'booking',
+                'Salle' => 'room'
+            ];
+            if($str !== null && array_key_exists($str, $remplace)){
+                $data = [
+                    $remplace[$str]."_id" => $_GET['id']
+                ];
+                echo useAPI('http://vps595572.ovh.net/api/'.$remplace[$str].'/?delete', $api_token, $data);
+            } 
+        }
+        case "add":
+            var_dump($_GET);
+            exit;
+            echo useAPI('http://vps595572.ovh.net/api/booking/?add', $api_token, $data);
         break;
     default:
 }

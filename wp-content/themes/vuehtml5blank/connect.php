@@ -49,11 +49,14 @@ $response = file_get_contents("https://slack.com/api/users.identity?token={$toke
 //on decode la reponse
 $response = json_decode($response);
 //on affiche la reponse
-var_dump($response);
+//var_dump($response);
 
 if ( email_exists( $response->user->email ) ){  
     $user = get_user_by("email", $response->user->email);
     $_SESSION["user_id"] = $response->user->id;
+    $_SESSION["user_pic"] = $response->user->image_72;
+    // var_dump($_SESSION["user_pic"]);
+    // exit;
     header("location: http://".$_SERVER['HTTP_HOST']);
 }else{
    echo "Le système ne vous reconnait pas, veuillez contacter un administrateur";

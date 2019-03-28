@@ -2,13 +2,14 @@
 # BEGIN WordPress
 <IfModule mod_rewrite.c>
 RewriteEngine On
-RewriteBase /wp/
+RewriteBase /ihm/
 RewriteRule ^connection$ /wp-content/themes/vuehtml5blank/connect.php [L]
 RewriteRule ^disconnect$ /wp-content/themes/vuehtml5blank/disconnect.php [L]
 RewriteRule ^index\.php$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /wp-content/themes/vuehtml5blank/404.php [L]
+RewriteCond %{HTTP_HOST}@@%{HTTP_REFERER} !^([^@]*)@@http?://\1/.*
 </IfModule>
 
 # END WordPress

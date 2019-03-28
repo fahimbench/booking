@@ -100,7 +100,7 @@ img {
   flex-direction: column;
   margin: 0 auto;
   max-width: 1080px;
-  width:100%;
+  width: 100%;
   height: 100vh;
 }
 
@@ -111,15 +111,15 @@ img {
 #main-container nav {
   display: flex;
   flex-direction: column;
-  height:calc(100% - 8.5rem);
+  height: calc(100% - 8.5rem);
   width: 7rem;
   align-items: center;
   background-color: #fff;
   border-radius: 0.5rem;
   margin: 1rem 1rem;
-  position:fixed;
-  top:6.5rem;
-  bottom:0;
+  position: fixed;
+  top: 6.5rem;
+  bottom: 0;
 }
 #main-container .result {
   width: 100%;
@@ -129,67 +129,76 @@ img {
   margin-left: 8.5rem;
 }
 .result .add {
-  display:flex;
+  display: flex;
   justify-content: flex-end;
 }
 .result .add > .add-circle {
-  width:7rem;
-  height:7rem;
-  border-radius:50%;
-  cursor:pointer;
+  width: 7rem;
+  height: 7rem;
+  border-radius: 50%;
+  cursor: pointer;
 }
 .result .add > .add-room {
-  background: #693099 url('ressources/img/nav/addroom.png') no-repeat center center;
+  background: #693099 url("ressources/img/nav/addroom.png") no-repeat center
+    center;
   background-size: 4rem 4rem;
 }
 .result .load {
-  display:flex;
+  display: flex;
   flex-direction: column;
-  height:100%;
+  height: 100%;
   justify-content: center;
   align-items: center;
 }
 .result .row {
-    display: flex;
-    align-items: center;
-  }
+  display: flex;
+  align-items: center;
+}
 
 .result .row-bg {
-    height:6rem;
-    background-color: white;  
-    border-radius:.5rem;
-    margin: .3rem 0;
+  min-height: 6rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  margin: 0.3rem 0;
 }
 .result .row-bg:hover {
-  box-shadow: .1rem .1rem .5rem #777;
+  box-shadow: 0.1rem 0.1rem 0.5rem #777;
 }
 .result .col {
-    flex:1 1 0;       
+  flex: 1 1 0;
+  min-width: 3rem;
 }
 .result .col-icon {
-  max-width:7rem;
+  max-width: 7rem;
 }
 .result .col-modify {
   background: url("ressources/img/nav/modify.png") no-repeat center center;
   background-size: contain;
-  min-height:3rem;
-  max-height:3rem;
+  min-height: 3rem;
+  max-height: 3rem;
 }
 .result .col-modify:hover {
   background: url("ressources/img/nav/modifyactive.png") no-repeat center center;
   background-size: contain;
-  cursor:pointer;
+  cursor: pointer;
 }
 .result .col-trash {
   background: url("ressources/img/nav/trash.png") no-repeat center center;
   background-size: contain;
-  min-height:3rem;
-  max-height:3rem;
+  min-height: 3rem;
+  max-height: 3rem;
 }
 .result .col-trash:hover {
   background: url("ressources/img/nav/trashactive.png") no-repeat center center;
   background-size: contain;
-  cursor:pointer;
+  cursor: pointer;
+}
+.result .welcome {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-size: 2rem;
 }
 /* barre de recherche et profil icone avec deconnexion */
 .topbar ::placeholder {
@@ -212,10 +221,10 @@ img {
   background-color: #693099;
   justify-content: center;
   align-items: center;
-  max-width:108rem;
-  width:100%;
-  box-shadow: .1rem 0 .7rem #777;
-  position:fixed;
+  max-width: 108rem;
+  width: 100%;
+  box-shadow: 0.1rem 0 0.7rem #777;
+  position: fixed;
 }
 
 .topbar .search {
@@ -290,7 +299,7 @@ img {
   padding-right: 5.5rem;
   padding-left: 2.5rem;
   margin: 3rem;
-  box-shadow: .1rem .1rem .7rem #777;
+  box-shadow: 0.1rem 0.1rem 0.7rem #777;
 }
 
 .topbar .profil.active > .profil-hidden {
@@ -360,4 +369,100 @@ img {
 #main-container nav .home.router-link-exact-active {
   background: url("ressources/img/nav/homeactive.png") no-repeat center center;
   background-size: contain;
+}
+
+.popupcontent {
+  display: flex;
+  width: 95%;
+  height: 100%;
+  flex-direction: column;
+}
+
+.popupcontent #inputRoomName {
+  height: 4.5rem;
+  border: none;
+  border-bottom: 1px solid #999;
+  margin-bottom: 0.5rem;
+}
+
+.popupcontent .hrdaycontent {
+  display: flex;
+  justify-content: space-around;
+  margin: 0.5rem 0;
+}
+#selectDayStart,
+#selectDayEnd,
+#selectHrStart,
+#selectHrEnd {
+  min-width: 10rem;
+}
+.popupcontent select.form-control {
+  text-align: center;
+  height: 4.5rem;
+  border: 1px solid #999;
+  color: #999;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background-position: calc(100% - 1rem) center;
+  background-repeat: no-repeat;
+  background-size: 1ex;
+  background-origin: content-box;
+  background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjxzdmcKICAgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIgogICB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIgogICB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiCiAgIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgdmVyc2lvbj0iMS4xIgogICBpZD0ic3ZnMiIKICAgdmlld0JveD0iMCAwIDM1Ljk3MDk4MyAyMy4wOTE1MTgiCiAgIGhlaWdodD0iNi41MTY5Mzk2bW0iCiAgIHdpZHRoPSIxMC4xNTE4MTFtbSI+CiAgPGRlZnMKICAgICBpZD0iZGVmczQiIC8+CiAgPG1ldGFkYXRhCiAgICAgaWQ9Im1ldGFkYXRhNyI+CiAgICA8cmRmOlJERj4KICAgICAgPGNjOldvcmsKICAgICAgICAgcmRmOmFib3V0PSIiPgogICAgICAgIDxkYzpmb3JtYXQ+aW1hZ2Uvc3ZnK3htbDwvZGM6Zm9ybWF0PgogICAgICAgIDxkYzp0eXBlCiAgICAgICAgICAgcmRmOnJlc291cmNlPSJodHRwOi8vcHVybC5vcmcvZGMvZGNtaXR5cGUvU3RpbGxJbWFnZSIgLz4KICAgICAgICA8ZGM6dGl0bGU+PC9kYzp0aXRsZT4KICAgICAgPC9jYzpXb3JrPgogICAgPC9yZGY6UkRGPgogIDwvbWV0YWRhdGE+CiAgPGcKICAgICB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjAyLjAxNDUxLC00MDcuMTIyMjUpIgogICAgIGlkPSJsYXllcjEiPgogICAgPHRleHQKICAgICAgIGlkPSJ0ZXh0MzMzNiIKICAgICAgIHk9IjYyOS41MDUwNyIKICAgICAgIHg9IjI5MS40Mjg1NiIKICAgICAgIHN0eWxlPSJmb250LXN0eWxlOm5vcm1hbDtmb250LXdlaWdodDpub3JtYWw7Zm9udC1zaXplOjQwcHg7bGluZS1oZWlnaHQ6MTI1JTtmb250LWZhbWlseTpzYW5zLXNlcmlmO2xldHRlci1zcGFjaW5nOjBweDt3b3JkLXNwYWNpbmc6MHB4O2ZpbGw6IzAwMDAwMDtmaWxsLW9wYWNpdHk6MTtzdHJva2U6bm9uZTtzdHJva2Utd2lkdGg6MXB4O3N0cm9rZS1saW5lY2FwOmJ1dHQ7c3Ryb2tlLWxpbmVqb2luOm1pdGVyO3N0cm9rZS1vcGFjaXR5OjEiCiAgICAgICB4bWw6c3BhY2U9InByZXNlcnZlIj48dHNwYW4KICAgICAgICAgeT0iNjI5LjUwNTA3IgogICAgICAgICB4PSIyOTEuNDI4NTYiCiAgICAgICAgIGlkPSJ0c3BhbjMzMzgiPjwvdHNwYW4+PC90ZXh0PgogICAgPGcKICAgICAgIGlkPSJ0ZXh0MzM0MCIKICAgICAgIHN0eWxlPSJmb250LXN0eWxlOm5vcm1hbDtmb250LXZhcmlhbnQ6bm9ybWFsO2ZvbnQtd2VpZ2h0Om5vcm1hbDtmb250LXN0cmV0Y2g6bm9ybWFsO2ZvbnQtc2l6ZTo0MHB4O2xpbmUtaGVpZ2h0OjEyNSU7Zm9udC1mYW1pbHk6Rm9udEF3ZXNvbWU7LWlua3NjYXBlLWZvbnQtc3BlY2lmaWNhdGlvbjpGb250QXdlc29tZTtsZXR0ZXItc3BhY2luZzowcHg7d29yZC1zcGFjaW5nOjBweDtmaWxsOiMwMDAwMDA7ZmlsbC1vcGFjaXR5OjE7c3Ryb2tlOm5vbmU7c3Ryb2tlLXdpZHRoOjFweDtzdHJva2UtbGluZWNhcDpidXR0O3N0cm9rZS1saW5lam9pbjptaXRlcjtzdHJva2Utb3BhY2l0eToxIj4KICAgICAgPHBhdGgKICAgICAgICAgaWQ9InBhdGgzMzQ1IgogICAgICAgICBzdHlsZT0iZmlsbDojMzMzMzMzO2ZpbGwtb3BhY2l0eToxIgogICAgICAgICBkPSJtIDIzNy41NjY5Niw0MTMuMjU1MDcgYyAwLjU1ODA0LC0wLjU1ODA0IDAuNTU4MDQsLTEuNDczMjIgMCwtMi4wMzEyNSBsIC0zLjcwNTM1LC0zLjY4MzA0IGMgLTAuNTU4MDQsLTAuNTU4MDQgLTEuNDUwOSwtMC41NTgwNCAtMi4wMDg5MywwIEwgMjIwLDQxOS4zOTM0NiAyMDguMTQ3MzIsNDA3LjU0MDc4IGMgLTAuNTU4MDMsLTAuNTU4MDQgLTEuNDUwODksLTAuNTU4MDQgLTIuMDA4OTMsMCBsIC0zLjcwNTM1LDMuNjgzMDQgYyAtMC41NTgwNCwwLjU1ODAzIC0wLjU1ODA0LDEuNDczMjEgMCwyLjAzMTI1IGwgMTYuNTYyNSwxNi41NDAxNyBjIDAuNTU4MDMsMC41NTgwNCAxLjQ1MDg5LDAuNTU4MDQgMi4wMDg5MiwwIGwgMTYuNTYyNSwtMTYuNTQwMTcgeiIgLz4KICAgIDwvZz4KICA8L2c+Cjwvc3ZnPgo=");
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+  .toplist {
+    visibility: hidden;
+    height: 0;
+  }
+
+  .result .row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .result .col-modify {
+    background: none;
+  }
+  .result .col-modify:hover {
+    background: none;
+  }
+  .result .col-modify::before {
+    content: "modifier";
+    color: #693099;
+    font-weight: bold;
+  }
+  .result .col-trash {
+    background: none;
+  }
+  .result .col-trash:hover {
+    background: none;
+  }
+  .result .col-trash::before {
+    content: "supprimer";
+    color: red;
+    font-weight: bold;
+  }
+
+  .room-name::before {
+    content: "Salle : ";
+  }
+  .room-dispo::before {
+    content: "Dispo : ";
+  }
+  .room-dispo-hr::before {
+    content: "De : ";
+  }
+  .room-building::before {
+    content: "Bâtiment : ";
+  }
+  .room-date::before {
+    content: "Le : ";
+  }
+  .room-resp::before {
+    content: "Responsable : ";
+  }
+  .img-resp {
+    height: 0;
+  }
 }

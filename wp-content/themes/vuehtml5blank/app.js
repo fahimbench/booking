@@ -1,6 +1,5 @@
 const url = JSON.parse(document.getElementById("data").innerHTML).url;
 
-
 Vue.filter("momentTime", function(date) {
   return moment(date)
     .locale("fr")
@@ -106,18 +105,16 @@ const Rooms = {
     return {
       items: [],
       load: true,
-      location: [
-        "IOT1","IOT2","IOT3"
-      ]
+      location: ["IOT1", "IOT2", "IOT3"]
     };
   },
   template:
     '<div v-if="filteredList.length > 0">' +
-    '<div class="add"><div class="add-circle add-room" v-on:click="add(emptyRoom())"></div></div>' + 
-    '<div class="row">' +
+    '<div class="add"><div class="add-circle add-room" v-on:click="add(emptyRoom())"></div></div>' +
+    '<div class="row toplist">' +
     '<div class="col col-icon"></div><div class="col">Nom de la salle</div><div class="col">Disponibilités</div><div class="col">Bâtiment</div><div class="col col-icon"></div><div class="col col-icon"></div>' +
     "</div>" +
-    '<div class="row row-bg" v-bind:data-id="post.id" v-for="post in filteredList"><div class="col col-icon"></div><div class="col">{{post.name}}</div><div class="col"><div>{{post.dayStart | momentDay}} au {{post.dayEnd | momentDay}}</div><div>{{ post.hrStart | momentTime }} à {{ post.hrEnd | momentTime }}</div></div><div class="col">{{getBuilding(post.building-1)}}</div><div class="col col-icon col-modify" v-on:click=\'modify(post)\'></div><div class="col col-icon col-trash" v-on:click=\'suppr(post.id, "Salle")\'></div></div>' +
+    '<div class="row row-bg" v-bind:data-id="post.id" v-for="post in filteredList"><div class="col col-icon"></div><div class="col room-name">{{post.name}}</div><div class="col"><div class="room-dispo">{{post.dayStart | momentDay}} au {{post.dayEnd | momentDay}}</div><div class="room-dispo-hr">{{ post.hrStart | momentTime }} à {{ post.hrEnd | momentTime }}</div></div><div class="col room-building">{{getBuilding(post.building-1)}}</div><div class="col col-icon col-modify" v-on:click=\'modify(post)\'></div><div class="col col-icon col-trash" v-on:click=\'suppr(post.id, "Salle")\'></div></div>' +
     "</div>" +
     '<div class="load" v-else-if="this.load"><img src="' +
     url +
@@ -136,88 +133,139 @@ const Rooms = {
       swal({
         title: "Confirmation de la suppression?",
         text: "Êtes vous sure de vouloir supprimer cet élément ?",
-        buttons: [true, 'Confirmer'],
-        dangerMode: true,
-    })
-    .then((del) => {
+        buttons: [true, "Confirmer"],
+        dangerMode: true
+      }).then(del => {
         if (del) {
-            axios.get(url + '/send.php?req=delete&id=' + id + '&type=' + str)
-                .then(function(response) {
-                    if (response.data.error === false) {
-                        for(let i = 0; i < vm.items.length; i++){
-                          if(vm.items[i].id == id){
-                            vm.$delete(vm.items, i);
-                            break;
-                          }
-                        }
-                        swal("Votre " + str + " a été correctement supprimé !", {
-                            icon: "success",
-                        });
-                    } else {
-                        swal("Votre " + str + " n'a pas été correctement supprimé !", {
-                            icon: "error",
-                        });
-                    }
-                })
+          axios
+            .get(url + "/send.php?req=delete&id=" + id + "&type=" + str)
+            .then(function(response) {
+              if (response.data.error === false) {
+                for (let i = 0; i < vm.items.length; i++) {
+                  if (vm.items[i].id == id) {
+                    vm.$delete(vm.items, i);
+                    break;
+                  }
+                }
+                swal("Votre " + str + " a été correctement supprimé !", {
+                  icon: "success"
+                });
+              } else {
+                swal("Votre " + str + " n'a pas été correctement supprimé !", {
+                  icon: "error"
+                });
+              }
+            });
         }
-    });
+      });
     },
     modify(room) {
-      modify(room)
+      let vm = this;
+      swal({
+        title: "Modification d'une salle",
+        content: buildForm(room)
+      }).then(modify => {
+        if (modify) {
+          axios
+            .get(url + "/send.php", {
+              params: {
+                req: "modify",
+                id: room.id,
+                name: document.querySelector("#inputRoomName").value,
+                dayStart: document.querySelector("#selectDayStart").value,
+                dayEnd: document.querySelector("#selectDayEnd").value,
+                hrStart: document.querySelector("#selectHrStart").value,
+                hrEnd: document.querySelector("#selectHrEnd").value,
+                building: document.querySelector("#selectBuilding").value
+              }
+            })
+            .then(function(response) {
+              console.log(response);
+              if (response.data.error === false) {
+                axios.get(url + "/send.php?req=getAllRooms").then(result => {
+                  let newItems = [];
+                  for (let i = 0; i < result.data.response.length; i++) {
+                    newItems.push(
+                      new Room(
+                        result.data.response[i].room_id,
+                        result.data.response[i].room_name,
+                        result.data.response[i].room_day_start,
+                        result.data.response[i].room_day_end,
+                        result.data.response[i].room_hr_start,
+                        result.data.response[i].room_hr_end,
+                        result.data.response[i].room_building
+                      )
+                    );
+                  }
+                  vm.items = newItems;
+                });
+                swal("Votre Salle a été modifié correctement !", {
+                  icon: "success"
+                });
+              } else {
+                swal("Votre Salle n'a pas été modifié !", {
+                  icon: "error"
+                });
+              }
+            });
+        }
+      });
     },
-    add(room){
+    add(room) {
       let vm = this;
       swal({
         title: "Ajout d'une salle",
         content: buildForm(room)
-    }).then((add) => {
+      }).then(add => {
         if (add) {
-            axios.get(url + '/send.php', {
-                params: {
-                    req: "add",
-                    name: document.querySelector("#inputRoomName").value,
-                    dayStart: document.querySelector("#selectDayStart").value,
-                    dayEnd: document.querySelector("#selectDayEnd").value,
-                    hrStart: document.querySelector("#selectHrStart").value,
-                    hrEnd: document.querySelector("#selectHrEnd").value,
-                    building: document.querySelector("#selectBuilding").value,
-                }
-            }).then(function(response) {
-                if (response.data.error === false) {
-                  axios.get(url + "/send.php?req=getAllRooms").then(result => {
-                    let newItems = [];
-                    for (let i = 0; i < result.data.response.length; i++) {
-                      newItems.push(
-                        new Room(
-                          result.data.response[i].room_id,
-                          result.data.response[i].room_name,
-                          result.data.response[i].room_day_start,
-                          result.data.response[i].room_day_end,
-                          result.data.response[i].room_hr_start,
-                          result.data.response[i].room_hr_end,
-                          result.data.response[i].room_building
-                        )
-                      );
-                        }
-                      vm.items = newItems;
-                      });
-                    swal("Votre Salle a été créé correctement !", {
-                                icon: "success",
-                    });
-                } else {
-                    swal("Votre Salle n'a pas été créé !", {
-                                icon: "error",
-                            });
-                }
+          axios
+            .get(url + "/send.php", {
+              params: {
+                req: "add",
+                name: document.querySelector("#inputRoomName").value,
+                dayStart: document.querySelector("#selectDayStart").value,
+                dayEnd: document.querySelector("#selectDayEnd").value,
+                hrStart: document.querySelector("#selectHrStart").value,
+                hrEnd: document.querySelector("#selectHrEnd").value,
+                building: document.querySelector("#selectBuilding").value
+              }
             })
+            .then(function(response) {
+              if (response.data.error === false) {
+                axios.get(url + "/send.php?req=getAllRooms").then(result => {
+                  let newItems = [];
+                  for (let i = 0; i < result.data.response.length; i++) {
+                    newItems.push(
+                      new Room(
+                        result.data.response[i].room_id,
+                        result.data.response[i].room_name,
+                        result.data.response[i].room_day_start,
+                        result.data.response[i].room_day_end,
+                        result.data.response[i].room_hr_start,
+                        result.data.response[i].room_hr_end,
+                        result.data.response[i].room_building
+                      )
+                    );
+                  }
+                  vm.items = newItems;
+                });
+                swal("Votre Salle a été créé correctement !", {
+                  icon: "success"
+                });
+              } else {
+                swal("Votre Salle n'a pas été créé !", {
+                  icon: "error"
+                });
+              }
+            });
         }
-    });
+      });
     },
-    getBuilding(id){
-      return this.location[id]
+    getBuilding(id) {
+      return this.location[id];
     },
-    emptyRoom(){
-      return new Room('','',1,0,'1990-01-01 00:00','1990-01-01 23:30',1)
+    emptyRoom() {
+      return new Room("", "", 1, 0, "1990-01-01 00:00", "1990-01-01 23:30", 1);
     }
   },
   mounted() {
@@ -249,11 +297,11 @@ const Bookings = {
   },
   template:
     '<div v-if="filteredList.length > 0">' +
-    '<div class="row">' +
+    '<div class="row toplist">' +
     '<div class="col col-icon"></div><div class="col">Nom de la salle</div><div class="col">Date réservation</div><div class="col">Responsable</div><div class="col col-icon"></div>' +
-    '</div>' +
-    '<div class="row row-bg" v-bind:data-id="post.id" v-for="post in filteredList"><div class="col col-icon"></div><div class="col">{{post.room.name}}</div><div class="col"><div>{{ post.datetimeStart | momentDate}}</div><div>{{ post.datetimeStart | momentTime}} à {{ post.datetimeEnd | momentTime}}</div></div><div class="col"><img :src="post.user.img" class="image--cover">{{ post.user.name }}</div><div class="col col-icon col-trash" v-on:click=\'suppr(post.id, "Réservation")\'></div></div>' +
-    '</div>' +
+    "</div>" +
+    '<div class="row row-bg" v-bind:data-id="post.id" v-for="post in filteredList"><div class="col col-icon"></div><div class="col room-name">{{post.room.name}}</div><div class="col"><div class="room-date">{{ post.datetimeStart | momentDate}}</div><div class="room-dispo-hr">{{ post.datetimeStart | momentTime}} à {{ post.datetimeEnd | momentTime}}</div></div><div class="col room-resp"><img :src="post.user.img" class="image--cover img-resp">{{ post.user.name }}</div><div class="col col-icon col-trash" v-on:click=\'suppr(post.id, "Réservation")\'></div></div>' +
+    "</div>" +
     '<div class="load" v-else-if="this.load"><img src="' +
     url +
     '/ressources/img/load.gif"/></div>' +
@@ -272,35 +320,35 @@ const Bookings = {
   },
   methods: {
     suppr(id, str) {
-        let vm = this;
-        swal({
-          title: "Confirmation de la suppression?",
-          text: "Êtes vous sure de vouloir supprimer cet élément ?",
-          buttons: [true, 'Confirmer'],
-          dangerMode: true,
-      })
-      .then((del) => {
-          if (del) {
-              axios.get(url + '/send.php?req=delete&id=' + id + '&type=' + str)
-                  .then(function(response) {
-                      if (response.data.error === false) {
-                          for(let i = 0; i < vm.items.length; i++){
-                            if(vm.items[i].id == id){
-                              //document.querySelector('[data-id="' + id + '"]').remove();
-                              vm.$delete(vm.items, i);
-                              break;
-                            }
-                          }
-                          swal("Votre " + str + " a été correctement supprimé !", {
-                              icon: "success",
-                          });
-                      } else {
-                          swal("Votre " + str + " n'a pas été correctement supprimé !", {
-                              icon: "error",
-                          });
-                      }
-                  })
-          }
+      let vm = this;
+      swal({
+        title: "Confirmation de la suppression?",
+        text: "Êtes vous sure de vouloir supprimer cet élément ?",
+        buttons: [true, "Confirmer"],
+        dangerMode: true
+      }).then(del => {
+        if (del) {
+          axios
+            .get(url + "/send.php?req=delete&id=" + id + "&type=" + str)
+            .then(function(response) {
+              if (response.data.error === false) {
+                for (let i = 0; i < vm.items.length; i++) {
+                  if (vm.items[i].id == id) {
+                    //document.querySelector('[data-id="' + id + '"]').remove();
+                    vm.$delete(vm.items, i);
+                    break;
+                  }
+                }
+                swal("Votre " + str + " a été correctement supprimé !", {
+                  icon: "success"
+                });
+              } else {
+                swal("Votre " + str + " n'a pas été correctement supprimé !", {
+                  icon: "error"
+                });
+              }
+            });
+        }
       });
     }
   },
@@ -341,7 +389,7 @@ const Bookings = {
                     rooms.data.response[j].room_day_end,
                     rooms.data.response[j].room_hr_start,
                     rooms.data.response[j].room_hr_end,
-                    rooms.data.response[j].room_building,
+                    rooms.data.response[j].room_building
                   );
                 }
               }
@@ -363,7 +411,13 @@ const Bookings = {
 };
 
 const Home = {
-  template: "<div>Accueil</div>",
+  data: function() {
+    return {
+      iam: "Groot"
+    };
+  },
+  template:
+    '<div class="welcome"><span>Bienvenu sur votre espace {{ whoAmI() }}</span></div>',
   created() {
     //console.log(this.$router.resolve(this.$route.query.redirect.replace('/', '')));
     if (
@@ -371,6 +425,11 @@ const Home = {
       this.$router.resolve(this.$route.query.redirect.replace("/", ""))
     ) {
       this.$router.push(this.$route.query.redirect.replace("/", ""));
+    }
+  },
+  methods: {
+    whoAmI() {
+      return whoAmI();
     }
   }
 };

@@ -5,7 +5,7 @@ $client_id;
 $client_secret;
 $token;
 $api_token;
-$url = "http://" . $_SERVER['HTTP_HOST'] . "/wp-content/themes/vuehtml5blank/";
+$url = "https://" . $_SERVER['HTTP_HOST'] . "/wp-content/themes/vuehtml5blank/";
 $query = new WP_Query([
     "post_type" => "slack"
 ]);
@@ -23,13 +23,16 @@ if ($query->have_posts()) {
 <html>
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Booking - IOT team</title>
     <script src="https://unpkg.com/rxjs/bundles/rxjs.umd.js"></script>
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="http://momentjs.com/downloads/moment.js"></script>
+    <script src="https://momentjs.com/downloads/moment.js"></script>
     <script id="data" type="application/json">
         {
             "url": "<?php echo $url ?>"
@@ -100,32 +103,8 @@ if ($query->have_posts()) {
     //Si une session existe afficher les scripts depuis la fonction wp_footer
     //nous sommes obligés de le sortir du conteneur
     if (!empty($_SESSION["user_id"])) {
-        wp_footer();
-    }
-    ?>
+        ?>
     <script>
-        let profil = document.querySelector('.profil');
-
-        document.addEventListener('click', function(e) {
-
-            if (!e.target.classList.contains('picture') && profil.classList.contains('active')) {
-                profil.classList.toggle('active');
-            }
-
-        });
-
-        profil.addEventListener('click', function() {
-            this.classList.toggle('active');
-        });
-
-        let modify = function(room) {
-            swal({
-                title: "Modification d'une salle",
-                content: buildForm(room)
-            }).then((e) => {
-
-            });
-        }
 
         let buildForm = function(room) {
             let buildings = ["IOT1", "IOT2", "IOT3"];
@@ -139,6 +118,7 @@ if ($query->have_posts()) {
             }
             //creation du conteneur
             let div = document.createElement("div");
+            div.className = "popupcontent";
             //creation de l'input nom de la salle
             let inputRoomName = document.createElement("input");
             inputRoomName.id = "inputRoomName";
@@ -147,10 +127,18 @@ if ($query->have_posts()) {
             inputRoomName.value = room.name;
             div.appendChild(inputRoomName);
 
-            div.appendChild(selectBuilder("selectDayStart", days, room.dayStart, "days"));
-            div.appendChild(selectBuilder("selectDayEnd", days, room.dayEnd, "days"));
-            div.appendChild(selectBuilder("selectHrStart", hours, room.hrStart, "hours"));
-            div.appendChild(selectBuilder("selectHrEnd", hours, room.hrEnd, "hours"));
+            let div2 = document.createElement("div");
+            div2.className = "hrdaycontent";
+            div2.appendChild(selectBuilder("selectDayStart", days, room.dayStart, "days"));
+            div2.appendChild(selectBuilder("selectDayEnd", days, room.dayEnd, "days"));
+            div.appendChild(div2);
+
+            let div3 = document.createElement("div");
+            div3.className = "hrdaycontent";
+            div3.appendChild(selectBuilder("selectHrStart", hours, room.hrStart, "hours"));
+            div3.appendChild(selectBuilder("selectHrEnd", hours, room.hrEnd, "hours"));
+            div.appendChild(div3);
+
             div.appendChild(selectBuilder("selectBuilding", buildings, room.building, "building"));
             return div;
         }
@@ -158,6 +146,7 @@ if ($query->have_posts()) {
         let selectBuilder = function(id, array, selected, type) {
             let select = document.createElement("select");
             select.id = id;
+            select.className = "form-control";
             for (let i = 0; i < array.length; i++) {
                 let option = document.createElement("option");
                 option.value = array[i];
@@ -186,11 +175,34 @@ if ($query->have_posts()) {
             let hrStart = document.querySelector("#selectHrStart").value;
             let hrEnd = document.querySelector("#selectHrEnd").value;
             let building = document.querySelector("#selectBuilding").value;
+        }
 
-            
+        let whoAmI = function() {
+            let name = "<?php echo $_SESSION['user_name']; ?>";
+            return name;
         }
     </script>
+    <?php wp_footer();
+    ?>
+    <script>
+    let profil = document.querySelector('.profil');
 
+document.addEventListener('click', function(e) {
+
+    if (!e.target.classList.contains('picture') && profil.classList.contains('active')) {
+        profil.classList.toggle('active');
+    }
+
+});
+
+profil.addEventListener('click', function() {
+    this.classList.toggle('active');
+});
+    </script> 
+
+    <?php
+}
+?>
 </body>
 
 </html> 

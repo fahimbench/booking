@@ -3,11 +3,24 @@ session_start();
 header("Content-Type: application/json");
 require_once('../../../wp-load.php');
 if (empty($_SESSION["user_id"]) || empty($_GET["req"])) {
-    header("location:http://" . $_SERVER['HTTP_HOST']);
+    header("location:https://" . $_SERVER['HTTP_HOST']);
 }
 $wp_token;
 $api_token;
-
+$buildings = [
+    "IOT1" => 1,
+    "IOT2" => 2,
+    "IOT3" => 3
+];
+$days = [
+    "Dimanche" => 0,
+    "Lundi" => 1,
+    "Mardi" => 2,
+    "Mercredi" => 3,
+    "Jeudi" => 4,
+    "Vendredi" => 5,
+    "Samedi" => 6
+];
 $query = new WP_Query([
     "post_type" => "slack"
 ]);
@@ -89,24 +102,32 @@ switch ($_GET['req']) {
                 return;
             }
         }
-        $days = [
-            "Dimanche" => 0,
-            "Lundi" => 1,
-            "Mardi" => 2,
-            "Mercredi" => 3,
-            "Jeudi" => 4,
-            "Vendredi" => 5,
-            "Samedi" => 6
-        ];
         $data = [
             "room_name" => $_GET['name'],
             "room_day_start" => $days[$_GET['dayStart']],
             "room_day_end" => $days[$_GET['dayEnd']],
-            "room_hr_start" => "1990-01-01 20:00:00",
-            "room_hr_end" => "1990-01-01 23:00:00",
-            "room_building" => $_GET['building'] + 1
+            "room_hr_start" => "1990-01-01 " . $_GET['hrStart'] . ":00",
+            "room_hr_end" => "1990-01-01 " . $_GET['hrEnd'] . ":00",
+            "room_building" => $buildings[$_GET['building']]
         ];
         echo actionAPI('http://vps595572.ovh.net/api/room/?add', $api_token, $data);
+        break;
+    case "modify":
+        foreach ($_GET as $key => $value) {
+            if (empty($value)) {
+                return;
+            }
+        }
+        $data = [
+            "room_id" => $_GET['id'],
+            "room_name" => $_GET['name'],
+            "room_day_start" => $days[$_GET['dayStart']],
+            "room_day_end" => $days[$_GET['dayEnd']],
+            "room_hr_start" => "1990-01-01 " . $_GET['hrStart'] . ":00",
+            "room_hr_end" => "1990-01-01 " . $_GET['hrEnd'] . ":00",
+            "room_building" => $buildings[$_GET['building']]
+        ];
+        echo actionAPI('http://vps595572.ovh.net/api/room/?modify', $api_token, $data);
         break;
     default:
 }

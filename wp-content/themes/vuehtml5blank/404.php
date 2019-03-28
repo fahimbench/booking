@@ -4,6 +4,6 @@
 
     </head>
     <body>
-        <?php header('location: http://'.$_SERVER['HTTP_HOST'].'?redirect='.$_SERVER['REDIRECT_URL']); ?>
+        <?php header('location: https://'.$_SERVER['HTTP_HOST'].'?redirect='.$_SERVER['REDIRECT_URL']); ?>
     </body>
 </html>
